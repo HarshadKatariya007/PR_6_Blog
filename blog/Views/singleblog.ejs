@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+        <div id="blog">
+            <img src="<%= Blog_Single.image %>" alt="<%= Blog_Single.title %>" id="img">
+            <h3 id="title"><%= Blog_Single.title %></h3>
+            <span id="category"><%= Blog_Single.category %></span>
+            <p id="content"><%= Blog_Single.content %></p>
+            <button id="like">like</button>
+            <span id="count"><%= Blog_Single.likedBy.length %></span>
+            <form action="" method="post" id="comment">
+                <input type="text" name="comments" placeholder="Comments">
+                <input type="submit">
+            </form>
+        </div>
+</body>
+<script>
+  const likeButton = document.getElementById("like");
+  likeButton.addEventListener("click", () => {
+    let url = window.location.href.split("/")
+    let id = url[url.length - 1]
+    fetch(`/blog/like/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+    }).then(() => {
+      let count = document.getElementById("count").innerHTML;
+
+      document.getElementById("count").innerHTML = Number(count) + 1;
+    });
+  });
+</script>
+
+</html>
